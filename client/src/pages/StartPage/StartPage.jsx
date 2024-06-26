@@ -10,37 +10,25 @@ const { VITE_BASE_URL } = import.meta.env;
 
 
 export default function StartPage({ user }) {
-  const [showForm, setShowForm] = useState(null); // 'signin' или 'signup'
+  // const [showForm, setShowForm] = useState(null); // 'signin' или 'signup'
   const navigate = useNavigate();
-  const [tasks, setTasks] = useState([]);
-  const [news, setNews] = useState([])
+  // const [tasks, setTasks] = useState([]);
+ 
 
-  useEffect(() => {
-    axiosInstance
-      .get(`${import.meta.env.VITE_API}/channels`)
-      .then((res) => {
-        setTasks(res.data);
-      })
-      .catch((err) => {
-        console.error("Ошибка при загрузке данных:", err);
-      });
-  }, []);
+  // useEffect(() => {
+  //   axiosInstance
+  //     .get(`${import.meta.env.VITE_API}/channels`)
+  //     .then((res) => {
+  //       setTasks(res.data);
+  //     })
+  //     .catch((err) => {
+  //       console.error("Ошибка при загрузке данных:", err);
+  //     });
+  // }, []);
 
-  async function getNews() {
-    try {
-      const response = await fetch('https://newsapi.org/v2/everything?q=tesla&from=2024-05-26&sortBy=publishedAt&apiKey=e70344a657e448dda752d8e0b26cde17')
-      // * JSON.parse(data)  //  await response.json()
-      const { articles } = await response.json()
-      console.log("message:", articles)
-      setNews((pre) => ({...pre, articles }))
-    } catch (error) {
-      console.log(error)
-    }
-  }
 
-//   const pathAPI = fetch('https://newsdata.io/api/1/latest?country=ru&apikey=pub_473781911d39cd73e580a55047cd14fc9f476')
-// .then(response => response.json())
-// .then(data => console.log(data));
+
+  // news.articles - массив с новостями;
 
   const handleSigninClick = () => {
     navigate("/signin");
@@ -50,7 +38,17 @@ export default function StartPage({ user }) {
     navigate("/signup");
   };
 
-  console.log('я тут', news)
+  // console.log('я тут', news)
+
+  // let allResumes = await Resume.findAll();
+  // allResumes = allResumes.map((el) => el.get({ plain: true }));
+  // const result = allResumes.filter(
+  //   (resume) =>
+  //     resume.education.toLowerCase().includes(search.toLowerCase()) ||
+  //     resume.experience.toString().includes(search) ||
+  //     resume.skills
+  //       .split(" ")
+  //       .some((skill) => skill.toLowerCase().includes(search.toLowerCase()))
 
   return (
     <>
@@ -63,32 +61,6 @@ export default function StartPage({ user }) {
             Пожалуйста, войдите или зарегистрируйтесь{" "}
           </Heading>
         </Box>
-        <Button onClick={getNews}>
-          Биба
-        </Button>
-        {news?.articles?.length ? (
-          news?.articles?.map((el) => (
-            <Card style={{ margin: "20px" }} key={el}>
-              <img style={{ width: "500px" }} src={el.urlToImage} alt="фоточка для красоточки" />
-              <CardBody>
-                <Text style={{ color: "black" }}>
-                  Источник: {el.source.name}
-                </Text>
-                <Text style={{ color: "black" }}>
-                  Заголовок: {el.title}
-                </Text>
-                <Text style={{ color: "black" }}>
-                  Описание новости: {el.description}
-                </Text>
-                <a href = {el.url}>Ссылочка</a>
-              </CardBody>
-            </Card>
-          ))
-        ) : (
-          <h1>Публичных резюме нет</h1>
-        )}
-
-        {/* <a rel="alternate" type="application/rss+xml" href="https://www.gazeta.ru/export/rss/first.xml" title="Gazeta.ru">Cptn Jazz</a> */}
         <Box display="flex" justifyContent="center" mt="20px">
           <Button
             onClick={handleSigninClick}
