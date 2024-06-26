@@ -1,0 +1,6 @@
+PORT=3100
+DB='postgres://postgres:1@localhost:5432/zakaz-project'
+DB=[dialect]://[username]:[password]@localhost:[port]/[db_name]
+
+ACCESS_TOKEN_SECRET=ysstrokadlyaaccsesstokena
+REFRESH_TOKEN_SECRET=ysstrokadlyarefreshtokena  
