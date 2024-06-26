@@ -6,7 +6,11 @@
 const { Model } = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
   class User extends Model {
-    static associate() {}
+    static associate(models) {
+      this.hasMany(models.Word, {
+        foreignKey: 'user_id'
+      });
+    }
   }
   User.init(
     {
