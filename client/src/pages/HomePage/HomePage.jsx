@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { Box, Text, Button, Card, CardBody } from "@chakra-ui/react";
+import { Box, Text, Button, Card, CardBody, Input } from "@chakra-ui/react";
+
+import styles from "./HomePage.module.css";
 
 const HomePage = ({ inputs, setInputs }) => {
   const [news, setNews] = useState([]);
@@ -7,7 +9,7 @@ const HomePage = ({ inputs, setInputs }) => {
   const [totalPages, setTotalPages] = useState(0);
 
   useEffect(() => {
-    setTotalPages(Math.ceil(news.length / 5));
+    setTotalPages(Math.ceil(news.length / 12));
   }, [news]);
 
   function inputsHandler(e) {
@@ -17,8 +19,13 @@ const HomePage = ({ inputs, setInputs }) => {
   async function submitHandler(event) {
     event.preventDefault();
     try {
+      const searchParams = new URLSearchParams({
+        q: `${inputs.goodWord ? inputs.goodWord : ''}${inputs.goodWord && inputs.badWord ? ` AND -${inputs.badWord}` : inputs.badWord ? `-${inputs.badWord}` : ''}`,
+        domains: "ria.ru,lenta.ru,yandex.ru,rbc.ru",
+        apiKey: "e70344a657e448dda752d8e0b26cde17",
+      })
       const response = await fetch(
-        `https://newsapi.org/v2/everything?q=%27+${inputs.goodWord}%20AND%20-${inputs.badWord}%27&domains=ria.ru,lenta.ru,yandex.ru,rbc.ru&apiKey=13c73316936a42a5951587a58656f732`
+        `https://newsapi.org/v2/everything?${searchParams}`
       );
       const { articles } = await response.json();
       setNews(articles);
@@ -30,25 +37,20 @@ const HomePage = ({ inputs, setInputs }) => {
 
   const renderNews = () => {
     return news
-      .slice((currentPage - 1) * 5, currentPage * 5)
+      .slice((currentPage - 1) * 12, currentPage * 12)
       .map((el, index) => (
-        <Card style={{ margin: "20px" }} key={index}>
-          <img
-            style={{ width: "500px" }}
-            src={el.urlToImage}
-            alt="Картинка новости"
-          />
-          <CardBody>
-            <Text style={{ color: "black" }}>Источник: {el.source.name}</Text>
-            <Text style={{ color: "black" }}>Заголовок: {el.title}</Text>
-            {el.description && (
-              <Text style={{ color: "black" }}>
-                Описание новости: {el.description}
-              </Text>
-            )}
-            <a href={el.url}>Посмотреть в источнике...</a>
-          </CardBody>
-        </Card>
+        <>
+          <Card className={styles.card} key={index}>
+            <img
+              className={styles.img}
+              src={el.urlToImage}
+              alt="Картинка новости"
+            />
+            <CardBody className={styles.cardbody}>
+              <a href={el.url}>Подробнее...</a>
+            </CardBody>
+          </Card>
+        </>
       ));
   };
 
@@ -64,7 +66,20 @@ const HomePage = ({ inputs, setInputs }) => {
     let buttons = [];
     for (let i = 1; i <= totalPages; i++) {
       buttons.push(
-        <Button style={{margin:'5px'}} key={i} onClick={() => handlePageChange(i)}>
+        <Button
+          style={{
+            margin: "5px",
+            backgroundColor: i === currentPage ? "#2f855a" : "inherit",
+            color: i === currentPage ? "white" : "inherit",
+          }}
+          key={i}
+          onClick={() => handlePageChange(i)}
+          bg="#2F855A"
+          colorScheme="teal"
+          _hover={{ color: "#2F855A", bg: "teal.700" }}
+          _active={{ bg: "teal.800" }}
+          _focus={{ boxShadow: "none" }}
+        >
           {i}
         </Button>
       );
@@ -74,42 +89,52 @@ const HomePage = ({ inputs, setInputs }) => {
 
   return (
     <>
-      <form onSubmit={submitHandler}>
-        <div className="mb-3">
-          <input
-            placeholder="Напишите здесь тему, по которой хотите видеть новости"
-            value={inputs.goodWord}
-            onChange={inputsHandler}
-            type="text"
-            className="htmlForm-control"
-            id="goodWord"
-            aria-describedby="emailHelp"
-            name="goodWord"
-            required
-          />
-        </div>
-        <div className="mb-3">
-          <input
-            placeholder="А здесь, по которой не хотите"
-            value={inputs.badWord}
-            onChange={inputsHandler}
-            type="text"
-            className="htmlForm-control"
-            id="badWord"
-            name="badWord"
-            required
-          />
-        </div>
-        <button type="submit" className="btn btn-primary">
+      <form
+        onSubmit={submitHandler}
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          margin: "5px",
+        }}
+      >
+        <Input
+          placeholder="Хочу видеть..."
+          value={inputs.goodWord}
+          onChange={inputsHandler}
+          type="text"
+          className={styles.goodWord}
+          id="goodWord"
+          aria-describedby="emailHelp"
+          name="goodWord"
+        />
+        <Input
+          placeholder="Не хочу видеть..."
+          value={inputs.badWord}
+          onChange={inputsHandler}
+          type="text"
+          className={styles.badWord}
+          id="badWord"
+          name="badWord"
+        />
+        <Button
+          style={{ margin: "5px", width: "150px" }}
+          type="submit"
+          bg="#2F855A"
+          colorScheme="teal"
+          _hover={{ bg: "teal.700" }}
+          _active={{ bg: "teal.800" }}
+          _focus={{ boxShadow: "none" }}
+        >
           Искать
-        </button>
+        </Button>
+        {/* </div> */}
       </form>
-
       <Box
         textAlign="center"
         py={10}
         px={6}
-        bg="#68D391"
+        bg="#A0AEC0"
         minHeight="100vh"
         display="flex"
         flexDirection="column"
@@ -118,9 +143,17 @@ const HomePage = ({ inputs, setInputs }) => {
       >
         {news.length ? (
           <>
-            {renderNews()}
+            <div className={styles.cards}>{renderNews()}</div>
             <Box mt={4}>{generatePageButtons()}</Box>
-            <Button mt={4} onClick={scrollToTop}>
+            <Button
+              style={{ margin: "25px" }}
+              bg="#2F855A"
+              colorScheme="teal"
+              _hover={{ bg: "teal.700" }}
+              _active={{ bg: "teal.800" }}
+              _focus={{ boxShadow: "none" }}
+              onClick={scrollToTop}
+            >
               Наверх
             </Button>
           </>
