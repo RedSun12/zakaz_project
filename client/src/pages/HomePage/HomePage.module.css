@@ -1,9 +1,56 @@
 .wrapper {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-  
-    padding: 20px;
-  }
-  
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+
+.goodWord:valid {
+  border: 2px solid #38a169;
+}
+
+.badWord:valid {
+  border: 2px solid #aa3131;
+}
+
+.goodWord,
+.badWord {
+ margin: 5px;
+}
+
+.card {
+  margin: 20px;
+  width: 450px;
+}
+
+.cardbody {
+  color: black;
+  background-color: #CBD5E0;
+}
+
+/* .container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+} */
+
+.cards {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+/* 
+<CardBody>
+  <Text style={{ color: "black" }}>Источник: {el.source.name}</Text>
+  <Text style={{ color: "black" }}>Заголовок: {el.title}</Text>
+  {el.description && (
+    <Text style={{ color: "black" }}>
+      Описание новости: {el.description}
+    </Text>
+  )}
+  <a href={el.url}>Посмотреть в источнике...</a>
+</CardBody>
+</Card> */ 

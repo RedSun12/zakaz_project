@@ -19,7 +19,6 @@ import Story from "./pages/Story/Story";
 function App() {
   const [user, setUser] = useState();
   const [inputs, setInputs] = useState({ goodWord: "", badWord: "" });
-  // console.log("🟩ЮЗЕР FROM APP.JSX user", user);
   const [subscribes, setSubscribes] = useState([]); // ^ СОСТОЯНИЕ ПОДПИСОК
 
   useEffect(() => {
