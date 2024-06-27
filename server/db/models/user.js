@@ -8,7 +8,7 @@ module.exports = (sequelize, DataTypes) => {
   class User extends Model {
     static associate(models) {
       this.hasMany(models.Word, {
-        foreignKey: 'user_id'
+        foreignKey: "user_id",
       });
     }
   }
@@ -27,6 +27,11 @@ module.exports = (sequelize, DataTypes) => {
       password: {
         type: DataTypes.STRING,
         allowNull: false,
+      },
+      profilePhoto: {
+        // новое поле для фото профиля
+        type: DataTypes.STRING,
+        allowNull: true,
       },
     },
     {

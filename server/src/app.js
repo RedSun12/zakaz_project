@@ -10,9 +10,17 @@ const express = require("express"); // подключаем сам модуль 
 const app = express(); // создаем наш экземпляр приложения
 const { PORT } = process.env;
 
+// const corsConfig = {
+//   origin: ["http://localhost:5173"], // разрешаем запросы с этого http-адреса
+//   credentials: true, // разрешаем передачу кукис
+// };
+
+// ^ пробую решить проблем с путом
 const corsConfig = {
-  origin: ["http://localhost:5173"], // разрешаем запросы с этого http-адреса
-  credentials: true, // разрешаем передачу кукис
+  origin: ["http://localhost:5173"],
+  credentials: true,
+  methods: ["GET", "POST", "PUT", "DELETE"],
+  allowedHeaders: ["Content-Type", "Authorization"],
 };
 
 app.use(morgan("dev")); //  подкл. мидлварку morgan с настройкой 'dev' (в консоль удобная отладка)

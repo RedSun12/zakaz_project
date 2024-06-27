@@ -7,12 +7,15 @@ require('dotenv').config();
 const verifyRefreshToken = (req, res, next) => {
   try {
     const { refreshToken } = req.cookies;
+    if (!refreshToken) {
+      throw new Error('🔴Refresh token missing');
+    }
     const { user } = jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET);
     res.locals.user = user;
 
     return next();
   } catch (error) {
-    console.log('Invalid refresh token');
+    console.log('🔴Invalid refresh token');
     return res.clearCookie('refreshToken').sendStatus(401);
   }
 };
@@ -20,12 +23,16 @@ const verifyRefreshToken = (req, res, next) => {
 const verifyAccessToken = (req, res, next) => {
   try {
     const accessToken = req.headers.authorization.split(' ')[1];
+    // ^ добавило логгирование ошибки токена
+    if (!accessToken) {
+      throw new Error('🔴 Access token missing');
+    }
     const { user } = jwt.verify(accessToken, process.env.ACCESS_TOKEN_SECRET);
     res.locals.user = user;
 
     return next();
   } catch (error) {
-    console.log('Invalid access token');
+    console.log('🔴 Invalid access token', error);
     return res.sendStatus(403);
   }
 };
