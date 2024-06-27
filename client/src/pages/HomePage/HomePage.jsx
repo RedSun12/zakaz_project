@@ -23,6 +23,7 @@ const HomePage = ({ inputs, setInputs, user }) => {
       });
       const data = await response.json();
       setInputs(() => data);
+      setEntries((prev) => [...prev, data]);
     } catch (error) {
       console.log(error);
     }
@@ -32,13 +33,13 @@ const HomePage = ({ inputs, setInputs, user }) => {
     async function fetchData() {
       try {
         const { data } = await axiosInstance.get(`${VITE_API}/story`);
-        setEntries(data);
+        setEntries(() => data);
       } catch (error) {
         console.error("Error:", error);
       }
     }
     fetchData();
-  }, []);
+  }, [inputs]);
 
   useEffect(() => {
     setTotalPages(Math.ceil(news.length / 12));
@@ -178,12 +179,12 @@ const HomePage = ({ inputs, setInputs, user }) => {
             ? entries[0]?.map((el) => <p key={el}>{el}</p>)
             : "элементов нет"}
         </div>
-        <div className={styles.badContainer}>
+        {/* <div className={styles.badContainer}>
          Топ-5 "Не хочу видеть"
           {entries[1]?.length
             ? entries[1]?.map((el) => <p key={el}>{el}</p>)
             : "элементов нет"}
-        </div>
+        </div> */}
       </div>
       <Box
         textAlign="center"

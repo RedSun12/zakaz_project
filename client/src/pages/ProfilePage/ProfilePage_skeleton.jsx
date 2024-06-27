@@ -1,7 +1,9 @@
 import React from "react";
 import { Box, Text, Heading, VStack } from "@chakra-ui/react";
+import Story from "../Story/Story";
 
 const ProfilePage_skeleton = ({ user }) => {
+  // const [entries, setEntries] = useState([]);
   console.log(user);
 
   return (
@@ -16,6 +18,7 @@ const ProfilePage_skeleton = ({ user }) => {
       justifyContent="center"
       alignItems="center"
     >
+      <Story user={user} />
       <VStack spacing={6} color="white">
         <Heading as="h1" size="xl">
           Приветствуем Вас, {user.username}!

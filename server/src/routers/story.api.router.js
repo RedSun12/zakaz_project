@@ -1,4 +1,5 @@
 const router = require('express').Router();
+const { where } = require('sequelize');
 const { Word } = require('../../db/models');
 // роутер для записи хороших и плохи слов в базу данных
 router.post('/', async (req, res) => {
@@ -12,6 +13,20 @@ router.post('/', async (req, res) => {
     res.status(500).send(error.message);
   }
 });
+
+  router.get('/:id', async (req, res) => {
+    try {
+      const { id } = req.params;
+      const entrie = await Word.findAll({ where: { user_id: id }, attributes: ['goodWord', 'badWord'] });
+      const result = entrie.map((el) => el.get({ plain: true }));
+      
+      console.log(result);
+      res.json(result);
+    } catch (error) {
+      console.log(error);
+      res.status(500).send(error.message);
+    }
+  })
 
 // роутер для сортировки популярных слов
 router.get('/', async (req, res) => {
@@ -46,7 +61,7 @@ router.get('/', async (req, res) => {
     const dataArrayBad = Object.entries(objBadWord);
     dataArrayBad.sort((a, b) => b[1] - a[1]);
     const dataArrBad = dataArrayBad.map((el) => el[0]).filter((el) => el !== '');
-    const arrBadWord = dataArrBad.length > 5 ? dataArrBad.slice(0, 5) : dataArrBad;
+    const arrBadWord = dataArrBad.length > 0 ? dataArrBad.slice(0, 5) : dataArrBad;
     console.log(arrBadWord);
     res.json([arrGoodWord, arrBadWord]);
   } catch (error) {
