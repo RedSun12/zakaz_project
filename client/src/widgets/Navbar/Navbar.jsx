@@ -9,7 +9,7 @@ export default function Navbar({ user, setUser }) {
 
     if (res.status === 200) {
       setUser(null);
-      setAccessToken("");
+      setAccessToken('');
     }
   };
 
@@ -26,6 +26,7 @@ export default function Navbar({ user, setUser }) {
         {user?.username && (
           <>
             <Button
+              className={styles.btnNav}
               as={Link}
               to="/home"
               bg="#2F855A"
