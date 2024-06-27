@@ -2,7 +2,7 @@ import { useState } from "react";
 import axiosInstance, { setAccessToken } from "../../axiosInstance";
 import { useNavigate } from "react-router-dom";
 import styles from "./AuthForm.module.css";
-import { Button, Input } from "@chakra-ui/react";
+import { Button, Input, Alert, AlertIcon, AlertTitle, AlertDescription  } from "@chakra-ui/react";
 
 const { VITE_API } = import.meta.env;
 
@@ -16,7 +16,15 @@ export default function AuthForm({ title, type = "signin", setUser }) {
   };
 
   const submitHandler = async (e) => {
+    // ^ правка 1: требование о пароле более 8 символов
     e.preventDefault();
+
+    if (type=== 'signup' && inputs.password.length < 8)
+      {
+        setError("Пароль должен быть не менее 8 символов");
+        return;
+    }
+
     try {
       const res = await axiosInstance.post(`${VITE_API}/auth/${type}`, inputs);
       setUser(res.data.user);
@@ -28,7 +36,7 @@ export default function AuthForm({ title, type = "signin", setUser }) {
       );
       console.error(error);
     }
-  };
+  }
 
   return (
 <form onSubmit={submitHandler} className={styles.wrapper}>
@@ -43,6 +51,7 @@ export default function AuthForm({ title, type = "signin", setUser }) {
               name="email"
               value={inputs?.email}
               placeholder="Эл.почта"
+              required
             />
             <Input
               onChange={changeHandler}
@@ -51,6 +60,7 @@ export default function AuthForm({ title, type = "signin", setUser }) {
               name="password"
               value={inputs?.password}
               placeholder="Пароль"
+              required
             />
           </>
         )}
@@ -62,6 +72,7 @@ export default function AuthForm({ title, type = "signin", setUser }) {
               name="username"
               value={inputs?.name}
               placeholder="Имя пользователя"
+              required
             />
             <Input
               onChange={changeHandler}
@@ -70,6 +81,7 @@ export default function AuthForm({ title, type = "signin", setUser }) {
               name="email"
               value={inputs?.description}
               placeholder="Эл.почта"
+              required
             />
             <Input
               onChange={changeHandler}
@@ -78,11 +90,18 @@ export default function AuthForm({ title, type = "signin", setUser }) {
               name="password"
               value={inputs?.password}
               placeholder="Пароль"
+              required
             />
           </>
         )}
       </div>
-      {error && <p className={styles.error}>{error}</p>}
+      {error && (
+        <Alert status="error" className={styles.error}>
+          <AlertIcon />
+          <AlertTitle>Ошибка</AlertTitle>
+          <AlertDescription>{error}</AlertDescription>
+        </Alert>
+      )} 
       <div className={styles.btns}>
         {type === "signin" && (
           <Button type="submit" colorScheme="blue">
