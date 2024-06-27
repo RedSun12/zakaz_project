@@ -3,10 +3,8 @@ import { Box, Text, Button, Card, CardBody } from "@chakra-ui/react";
 import { Link as RouterLink } from "react-router-dom";
 
 const HomePage = ({ user }) => {
-  const [news, setNews] = useState([]);
+  const [news, setNews] = useState();
   const [inputs, setInputs] = useState({ goodWord: "", badWord: "" });
-  // const goodWord = "авто";
-  // const badWord = "настроение";
 
   function inputsHandler(e) {
     setInputs((prev) => ({ ...prev, [e.target.name]: e.target.value }));
@@ -17,58 +15,14 @@ const HomePage = ({ user }) => {
     event.preventDefault();
     try {
       const response = await fetch(
-        "https://newsapi.org/v2/everything?q=tesla&from=2024-05-26&sortBy=publishedAt&apiKey=e70344a657e448dda752d8e0b26cde17"
+        `https://newsapi.org/v2/everything?q=%27+${inputs.goodWord}%20AND%20-${inputs.badWord}%27&domains=ria.ru,lenta.ru,yandex.ru,rbc.ru&apiKey=13c73316936a42a5951587a58656f732`
       );
       const { articles } = await response.json();
-      setNews((pre) => ({ ...pre, articles }));
-      const allNews = news.articles;
-      const goodfilterNews = allNews.filter((article) =>
-        article.description
-          .split(" ")
-          .some((word) => word.toLowerCase().includes(inputs.goodWord.toLowerCase()))
-      );
-      console.log(goodfilterNews);
-      const filterNews = goodfilterNews.filter((article) =>
-        article.description
-          .split(" ")
-          .some(
-            (word) => !word.toLowerCase().includes(inputs.badWord.toLocaleLowerCase())
-          )
-      );
-      console.log(filterNews);
-      setNews(filterNews);
+      setNews(articles);
     } catch (error) {
       console.log(error);
-    }
+    }   // ! НУЖНО СДЕЛАТЬ ПОИСК С УЧЕТОМ ОКОНЧАНИЙ
   }
-
-  // async function getNews() {
-  //   try {
-  //     const response = await fetch(
-  //       "https://newsapi.org/v2/everything?q=tesla&from=2024-05-26&sortBy=publishedAt&apiKey=e70344a657e448dda752d8e0b26cde17"
-  //     );
-  //     const { articles } = await response.json();
-  //     setNews((pre) => ({ ...pre, articles }));
-  //     const allNews = news.articles;
-  //     const goodfilterNews = allNews.filter((article) =>
-  //       article.description
-  //         .split(" ")
-  //         .some((word) => word.toLowerCase().includes(goodWord.toLowerCase()))
-  //     );
-  //     console.log(goodfilterNews);
-  //     const filterNews = goodfilterNews.filter((article) =>
-  //       article.description
-  //         .split(" ")
-  //         .some(
-  //           (word) => !word.toLowerCase().includes(badWord.toLocaleLowerCase())
-  //         )
-  //     );
-  //     console.log(filterNews);
-  //     setNews(filterNews);
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // }
 
   return (
     <>
@@ -115,24 +69,25 @@ const HomePage = ({ user }) => {
         justifyContent="center"
         alignItems="center"
       >
-        {/* <Button onClick={getNews}>Биба</Button> */}
         {news?.length ? (
           news?.map((el) => (
             <Card style={{ margin: "20px" }} key={el}>
               <img
                 style={{ width: "500px" }}
                 src={el.urlToImage}
-                alt="фоточка для красоточки"
+                alt="Картинка новости"
               />
               <CardBody>
                 <Text style={{ color: "black" }}>
                   Источник: {el.source.name}
                 </Text>
                 <Text style={{ color: "black" }}>Заголовок: {el.title}</Text>
-                <Text style={{ color: "black" }}>
-                  Описание новости: {el.description}
-                </Text>
-                <a href={el.url}>Ссылочка</a>
+                {el.description ? (
+                  <Text style={{ color: "black" }}>
+                    Описание новости: {el.description}
+                  </Text>
+                ) : null}
+                <a href={el.url}>Ссылка на новость</a>
               </CardBody>
             </Card>
           ))
