@@ -1,6 +1,6 @@
-import axiosInstance, { setAccessToken } from "../../axiosInstance";
-import styles from "./Navbar.module.css";
-import { Link } from "react-router-dom";
+import axiosInstance, { setAccessToken } from '../../axiosInstance';
+import styles from './Navbar.module.css';
+import { Link } from 'react-router-dom';
 import {
   Flex,
   Spacer,
@@ -8,7 +8,7 @@ import {
   ButtonGroup,
   Button,
   Box,
-} from "@chakra-ui/react";
+} from '@chakra-ui/react';
 
 export default function Navbar({ user, setUser }) {
   const logoutHandler = async () => {
@@ -16,7 +16,7 @@ export default function Navbar({ user, setUser }) {
 
     if (res.status === 200) {
       setUser(null);
-      setAccessToken("");
+      setAccessToken('');
     }
   };
 
@@ -33,27 +33,49 @@ export default function Navbar({ user, setUser }) {
         {user?.username && (
           <>
             <Button
+              className={styles.btnNav}
               as={Link}
               to="/home"
               bg="#2F855A"
               colorScheme="teal"
-              _hover={{ color: "#2F855A", bg: "teal.700" }}
-              _active={{ bg: "teal.800" }}
-              _focus={{ boxShadow: "none" }}
+              _hover={{ color: '#2F855A', bg: 'teal.700' }}
+              _active={{ bg: 'teal.800' }}
+              _focus={{ boxShadow: 'none' }}
+              sx={{
+                '@media screen and (max-width: 500px)': {
+                  fontSize: 'sm',
+                  padding: '8px',
+                },
+                '@media screen and (min-width: 501px)': {
+                  fontSize: 'lg',
+                  padding: '16px',
+                },
+              }}
             >
-              Home (или будущая страница Новостей)
+              Home
             </Button>
 
             <Button
+              className={styles.btnNav}
               as={Link}
               to="/story"
               bg="#2F855A"
               colorScheme="teal"
-              _hover={{ color: "#2F855A", bg: "teal.700" }}
-              _active={{ bg: "teal.800" }}
-              _focus={{ boxShadow: "none" }}
+              _hover={{ color: '#2F855A', bg: 'teal.700' }}
+              _active={{ bg: 'teal.800' }}
+              _focus={{ boxShadow: 'none' }}
+              sx={{
+                '@media screen and (max-width: 500px)': {
+                  fontSize: 'sm',
+                  padding: '8px',
+                },
+                '@media screen and (min-width: 501px)': {
+                  fontSize: 'lg',
+                  padding: '16px',
+                },
+              }}
             >
-             История
+              История
             </Button>
           </>
         )}
@@ -67,9 +89,19 @@ export default function Navbar({ user, setUser }) {
               to="/profile"
               bg="#2F855A"
               colorScheme="teal"
-              _hover={{ color: "#2F855A", bg: "teal.700" }}
-              _active={{ bg: "teal.800" }}
-              _focus={{ boxShadow: "none" }}
+              _hover={{ color: '#2F855A', bg: 'teal.700' }}
+              _active={{ bg: 'teal.800' }}
+              _focus={{ boxShadow: 'none' }}
+              sx={{
+                '@media screen and (max-width: 500px)': {
+                  fontSize: 'sm',
+                  padding: '8px',
+                },
+                '@media screen and (min-width: 501px)': {
+                  fontSize: 'lg',
+                  padding: '16px',
+                },
+              }}
             >
               Профиль
             </Button>
@@ -77,10 +109,20 @@ export default function Navbar({ user, setUser }) {
               as={Link}
               to="/"
               colorScheme="teal"
-              _hover={{ color: "#2F855A", bg: "teal.700" }}
-              _active={{ bg: "teal.800" }}
-              _focus={{ boxShadow: "none" }}
+              _hover={{ color: '#2F855A', bg: 'teal.700' }}
+              _active={{ bg: 'teal.800' }}
+              _focus={{ boxShadow: 'none' }}
               onClick={logoutHandler}
+              sx={{
+                '@media screen and (max-width: 500px)': {
+                  fontSize: 'sm',
+                  padding: '8px', 
+                },
+                '@media screen and (min-width: 501px)': {
+                  fontSize: 'lg',
+                  padding: '16px',
+                },
+              }}
             >
               Выйти
             </Button>
