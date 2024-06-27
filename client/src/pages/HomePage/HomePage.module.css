@@ -16,7 +16,7 @@
 
 .goodWord,
 .badWord {
- margin: 5px;
+  margin: 5px;
 }
 
 .card {
@@ -26,14 +26,8 @@
 
 .cardbody {
   color: black;
-  background-color: #CBD5E0;
+  background-color: #cbd5e0;
 }
-
-/* .container {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-} */
 
 .cards {
   width: 100%;
@@ -42,15 +36,22 @@
   justify-content: center;
 }
 
-/* 
-<CardBody>
-  <Text style={{ color: "black" }}>Источник: {el.source.name}</Text>
-  <Text style={{ color: "black" }}>Заголовок: {el.title}</Text>
-  {el.description && (
-    <Text style={{ color: "black" }}>
-      Описание новости: {el.description}
-    </Text>
-  )}
-  <a href={el.url}>Посмотреть в источнике...</a>
-</CardBody>
-</Card> */ 
+.words {
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.goodContainer {
+  border: 3px solid #38a169;
+}
+
+.badContainer {
+  border: 3px solid #aa3131;
+}
+
+.badContainer,
+.goodContainer {
+  text-align: center;
+  padding: 10px;
+  border-radius: 15px;
+}

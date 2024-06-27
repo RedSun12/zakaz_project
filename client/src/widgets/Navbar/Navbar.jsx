@@ -9,7 +9,7 @@ export default function Navbar({ user, setUser }) {
 
     if (res.status === 200) {
       setUser(null);
-      setAccessToken('');
+      setAccessToken("");
     }
   };
 
@@ -46,6 +46,27 @@ export default function Navbar({ user, setUser }) {
               }}
             >
               Home
+            </Button>
+            <Button
+              as={Link}
+              to="/story"
+              bg="#2F855A"
+              colorScheme="teal"
+              _hover={{ bg: "teal.700" }}
+              _active={{ bg: "teal.800" }}
+              _focus={{ boxShadow: "none" }}
+              sx={{
+                "@media screen and (max-width: 500px)": {
+                  fontSize: "sm",
+                  padding: "8px",
+                },
+                "@media screen and (min-width: 501px)": {
+                  fontSize: "lg",
+                  padding: "16px",
+                },
+              }}
+            >
+              История
             </Button>
           </>
         )}
@@ -139,28 +160,3 @@ export default function Navbar({ user, setUser }) {
     </Flex>
   );
 }
-
-//   return (
-//     <div className={styles.wrapper}>
-//       <div className={styles.left}>
-//         <Link to='/'>На стартовую страницу</Link>
-//       </div>
-//       <div className={styles.right}>
-//         {user?.username ? (
-//           <>
-//             {/* <Link to="/channels">Каналы</Link>  // ~ ШАБЛОН: добавь свои ссылки на страницы */}
-//            {/* <Link to="/subscriptions">Подписки</Link>  // ~ ШАБЛОН: добавь свои ссылки на страницы */}
-//             <Link to='/profile'>Профиль</Link>
-//             <Link onClick={logoutHandler}>Выйти</Link>
-//           </>
-//         ) : (
-//           <>
-//            {/* <Link to="/channels">Каналы (Общая страница)</Link> */}
-//             <Link to='/signin'>Войти</Link>
-//             <Link to='/signup'>Регистрация</Link>
-//           </>
-//         )}
-//       </div>
-//     </div>
-//   );
-// }

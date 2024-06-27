@@ -19,8 +19,7 @@ import Story from "./pages/Story/Story";
 function App() {
   const [user, setUser] = useState();
   const [inputs, setInputs] = useState({ goodWord: "", badWord: "" });
-  const [subscribes, setSubscribes] = useState([]); // ^ СОСТОЯНИЕ ПОДПИСОК
-
+  
   useEffect(() => {
     axiosInstance(`${import.meta.env.VITE_API}/tokens/refresh`).then((res) => {
       setUser(res.data.user);
