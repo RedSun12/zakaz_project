@@ -43,6 +43,18 @@ export default function Navbar({ user, setUser }) {
             >
               Home (или будущая страница Новостей)
             </Button>
+
+            <Button
+              as={Link}
+              to="/story"
+              bg="#2F855A"
+              colorScheme="teal"
+              _hover={{ color: "#2F855A", bg: "teal.700" }}
+              _active={{ bg: "teal.800" }}
+              _focus={{ boxShadow: "none" }}
+            >
+             История
+            </Button>
           </>
         )}
       </ButtonGroup>

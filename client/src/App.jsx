@@ -14,6 +14,7 @@ import ProfilePage_skeleton from "./pages/ProfilePage/ProfilePage_skeleton";
 // import ChannelPage from "./pages/ChannelPage";// ~ ШАБЛОН: добавь свои ссылки на страницы
 // import Subscriptions from "./pages/Subscriptions";
 import Page404 from "./components/Page404/Page404";
+import Story from "./pages/Story/Story";
 
 function App() {
   const [user, setUser] = useState();
@@ -48,6 +49,10 @@ function App() {
         {
           path: "/signup",
           element: <SignupPage setUser={setUser} />,
+        },
+        {
+          path: "/story",
+          element: <Story user={user} inputs={inputs} setInputs={setInputs} />,
         },
         {
           path: "*",
