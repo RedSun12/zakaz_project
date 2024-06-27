@@ -2,10 +2,9 @@ import React, { useState } from "react";
 import { Box, Text, Button, Card, CardBody } from "@chakra-ui/react";
 import { Link as RouterLink } from "react-router-dom";
 
-const HomePage = ({ user }) => {
+const HomePage = ({ user, inputs, setInputs }) => {
   const [news, setNews] = useState();
-  const [inputs, setInputs] = useState({ goodWord: "", badWord: "" });
-
+  
   function inputsHandler(e) {
     setInputs((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   }

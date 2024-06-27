@@ -17,6 +17,7 @@ import Page404 from "./components/Page404/Page404";
 
 function App() {
   const [user, setUser] = useState();
+  const [inputs, setInputs] = useState({ goodWord: "", badWord: "" });
   // console.log("🟩ЮЗЕР FROM APP.JSX user", user);
   const [subscribes, setSubscribes] = useState([]); // ^ СОСТОЯНИЕ ПОДПИСОК
 
@@ -38,7 +39,7 @@ function App() {
         },
         {
           path: "/home",
-          element: <HomePage user={user} setUser={setUser} />,
+          element: <HomePage user={user} setUser={setUser} inputs={inputs} setInputs={setInputs} />,
         },
         {
           path: "/signin",
@@ -57,8 +58,8 @@ function App() {
           element: user ? (
             <ProfilePage_skeleton
               user={user}
-              subscribes={subscribes}
-              setSubscribes={setSubscribes}
+              inputs={inputs}
+              setInputs={setInputs}
             />
           ) : (
             <Navigate to="/" />
