@@ -2,7 +2,7 @@
 import React from "react";
 import "./App.css";
 import Root from "./Root";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { createBrowserRouter, RouterProvider, Navigate } from "react-router-dom";
 import StartPage from "./pages/StartPage/StartPage";
 import SigninPage from "./pages/SigninPage/SigninPage";
 import SignupPage from "./pages/SignupPage/SignupPage";
@@ -54,14 +54,17 @@ function App() {
         },
         {
           path: "/profile",
-          element: (
+          element: user ? (
             <ProfilePage_skeleton
               user={user}
               subscribes={subscribes}
               setSubscribes={setSubscribes}
             />
-          ), 
+          ) : (
+            <Navigate to="/" />
+          ),
         },
+
         // ~-------------ВЫШЕ ЭТО БАЗА----------------------------------------
         // {
         //   path: "/channels", // ~ ШАБЛОН: добавь свои ссылки на страницы

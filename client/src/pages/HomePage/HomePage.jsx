@@ -87,7 +87,7 @@ const HomePage = ({ user }) => {
                     Описание новости: {el.description}
                   </Text>
                 ) : null}
-                <a href={el.url}>Ссылка на новость</a>
+                <a href={el.url}>{el.url.slice(0, -10)}</a>
               </CardBody>
             </Card>
           ))
