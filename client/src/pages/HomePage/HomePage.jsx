@@ -1,16 +1,20 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Box, Text, Button, Card, CardBody } from "@chakra-ui/react";
-import { Link as RouterLink } from "react-router-dom";
 
-const HomePage = ({ user, inputs, setInputs }) => {
-  const [news, setNews] = useState();
-  
+const HomePage = ({ inputs, setInputs }) => {
+  const [news, setNews] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(0);
+
+  useEffect(() => {
+    setTotalPages(Math.ceil(news.length / 5));
+  }, [news]);
+
   function inputsHandler(e) {
     setInputs((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   }
 
   async function submitHandler(event) {
-    // было getNews
     event.preventDefault();
     try {
       const response = await fetch(
@@ -18,45 +22,89 @@ const HomePage = ({ user, inputs, setInputs }) => {
       );
       const { articles } = await response.json();
       setNews(articles);
+      setCurrentPage(1);
     } catch (error) {
       console.log(error);
-    }   // ! НУЖНО СДЕЛАТЬ ПОИСК С УЧЕТОМ ОКОНЧАНИЙ
+    }
   }
+
+  const renderNews = () => {
+    return news
+      .slice((currentPage - 1) * 5, currentPage * 5)
+      .map((el, index) => (
+        <Card style={{ margin: "20px" }} key={index}>
+          <img
+            style={{ width: "500px" }}
+            src={el.urlToImage}
+            alt="Картинка новости"
+          />
+          <CardBody>
+            <Text style={{ color: "black" }}>Источник: {el.source.name}</Text>
+            <Text style={{ color: "black" }}>Заголовок: {el.title}</Text>
+            {el.description && (
+              <Text style={{ color: "black" }}>
+                Описание новости: {el.description}
+              </Text>
+            )}
+            <a href={el.url}>Посмотреть в источнике...</a>
+          </CardBody>
+        </Card>
+      ));
+  };
+
+  const handlePageChange = (pageNumber) => {
+    setCurrentPage(pageNumber);
+  };
+
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
+  const generatePageButtons = () => {
+    let buttons = [];
+    for (let i = 1; i <= totalPages; i++) {
+      buttons.push(
+        <Button style={{margin:'5px'}} key={i} onClick={() => handlePageChange(i)}>
+          {i}
+        </Button>
+      );
+    }
+    return buttons;
+  };
 
   return (
     <>
-      <>
-        <form onSubmit={submitHandler}>
-          <div className="mb-3">
-            <input
-              placeholder="театр, природа, трусики"
-              value={inputs.goodWord}
-              onChange={inputsHandler}
-              type="text"
-              className="htmlForm-control"
-              id="goodWord"
-              aria-describedby="emailHelp"
-              name="goodWord"
-              required
-            />
-          </div>
-          <div className="mb-3">
-            <input
-              placeholder="грязь, обида, мусор"
-              value={inputs.badWord}
-              onChange={inputsHandler}
-              type="text"
-              className="htmlForm-control"
-              id="badWord"
-              name="badWord"
-              required
-            />
-          </div>
-          <button type="submit" className="btn btn-primary">
-            Искать
-          </button>
-        </form>
-      </>
+      <form onSubmit={submitHandler}>
+        <div className="mb-3">
+          <input
+            placeholder="Напишите здесь тему, по которой хотите видеть новости"
+            value={inputs.goodWord}
+            onChange={inputsHandler}
+            type="text"
+            className="htmlForm-control"
+            id="goodWord"
+            aria-describedby="emailHelp"
+            name="goodWord"
+            required
+          />
+        </div>
+        <div className="mb-3">
+          <input
+            placeholder="А здесь, по которой не хотите"
+            value={inputs.badWord}
+            onChange={inputsHandler}
+            type="text"
+            className="htmlForm-control"
+            id="badWord"
+            name="badWord"
+            required
+          />
+        </div>
+        <button type="submit" className="btn btn-primary">
+          Искать
+        </button>
+      </form>
+
       <Box
         textAlign="center"
         py={10}
@@ -68,28 +116,14 @@ const HomePage = ({ user, inputs, setInputs }) => {
         justifyContent="center"
         alignItems="center"
       >
-        {news?.length ? (
-          news?.map((el) => (
-            <Card style={{ margin: "20px" }} key={el}>
-              <img
-                style={{ width: "500px" }}
-                src={el.urlToImage}
-                alt="Картинка новости"
-              />
-              <CardBody>
-                <Text style={{ color: "black" }}>
-                  Источник: {el.source.name}
-                </Text>
-                <Text style={{ color: "black" }}>Заголовок: {el.title}</Text>
-                {el.description ? (
-                  <Text style={{ color: "black" }}>
-                    Описание новости: {el.description}
-                  </Text>
-                ) : null}
-                <a href={el.url}>{el.url.slice(0, -10)}</a>
-              </CardBody>
-            </Card>
-          ))
+        {news.length ? (
+          <>
+            {renderNews()}
+            <Box mt={4}>{generatePageButtons()}</Box>
+            <Button mt={4} onClick={scrollToTop}>
+              Наверх
+            </Button>
+          </>
         ) : (
           <h1>Новости по таким ключевым словам не найдены</h1>
         )}
