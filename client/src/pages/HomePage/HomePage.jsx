@@ -10,6 +10,12 @@ const HomePage = ({ inputs, setInputs, user }) => {
   const [totalPages, setTotalPages] = useState(0);
   const [entries, setEntries] = useState([]);
 
+  const [isOpen, setIsOpen] = useState(false);
+
+  const toggleDropdown = () => {
+    setIsOpen(!isOpen);
+  };
+
   async function sendHandler(event) {
     // объединить функции в одну
     event.preventDefault();
@@ -128,6 +134,18 @@ const HomePage = ({ inputs, setInputs, user }) => {
 
   return (
     <>
+    <button onClick={toggleDropdown} className={styles.dropbtn}>
+        Топ-5 "хочу видеть"
+      </button>
+      {isOpen && (
+        <div className={styles.dropdownContent}>
+          {entries[0]?.length ? (
+            entries[0]?.map((el, i ) => <p key={el}>{i+1}. {el}</p>)
+          ) : (
+            <p>элементов нет</p>
+          )}
+        </div>
+      )}
       <form
         // onSubmit={submitHandler}
         style={{
@@ -137,6 +155,7 @@ const HomePage = ({ inputs, setInputs, user }) => {
           margin: "5px",
         }}
       >   
+
         <Input
           placeholder="Хочу видеть..."
           value={inputs.goodWord}
@@ -172,21 +191,6 @@ const HomePage = ({ inputs, setInputs, user }) => {
           Искать
         </Button>
       </form>
-      {/* <div className={styles.words}> */}
-      <div className={styles.goodContainer}>
-        <div className={styles.goodContainer}>
-         Топ-5 "хочу видеть"
-          {entries[0]?.length
-            ? entries[0]?.map((el) => <p key={el}>{el}</p>)
-            : "элементов нет"}
-        </div>
-        {/* <div className={styles.badContainer}>
-         Топ-5 "Не хочу видеть"
-          {entries[1]?.length
-            ? entries[1]?.map((el) => <p key={el}>{el}</p>)
-            : "элементов нет"}
-        </div> */}
-      </div>
       <Box
         textAlign="center"
         py={10}

@@ -59,36 +59,48 @@
 
 
 .goodContainer {
-  background-color: #f8f9fa; /* Светлый фон для контейнера */
-  border-radius: 8px; /* Округлые углы */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Легкая тень для объема */
-  padding: 20px; /* Внутренний отступ */
-  max-width: 300px; /* Максимальная ширина контейнера */
-  margin: 20px auto; /* Отступы и центрирование */
-  font-family: 'Arial', sans-serif; /* Шрифт */
+  position: relative;
+  display: inline-block;
+  margin: 20px;
 }
 
-.goodContainer * {
-  margin: 0; /* Убираем поля для всех элементов внутри контейнера */
+.dropbtn {
+  color: white;
+  padding: 16px;
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: background-color 0.3s ease;
+  border-radius: 15px;
+  background-color: #2F855A;
+  margin-left: 10px;
+}
+.dropbtn:hover {
+  background-color: rgb(40, 94, 97)
 }
 
-.goodContainer h2 {
-  font-size: 1.5rem; /* Размер шрифта заголовка */
-  color: #343a40; /* Цвет заголовка */
-  margin-bottom: 10px; /* Отступ снизу */
+.dropdownContent {
+  display: block;
+  position: absolute;
+  background-color: #C6F6D5;
+  min-width: auto;
+  box-shadow: 0px 4px 8px 0px rgba(0, 0, 0, 0.2);
+  z-index: 1;
+  border-radius: 4px;
+  overflow: hidden;
+  text-align: center;
+  margin-left: 45px;
 }
 
-.goodContainer p {
-  font-size: 1rem; /* Размер шрифта элементов списка */
-  color: #495057; /* Цвет текста элементов списка */
-  padding: 8px; /* Внутренний отступ */
-  background-color: #C6F6D5; /* Фон элементов списка */
-  border: 1px solid #dee2e6; /* Граница элементов списка */
-  border-radius: 4px; /* Округлые углы элементов списка */
-  margin-top: 4px; /* Отступ между элементами */
-  transition: background-color 0.3s ease; /* Плавный переход цвета фона */
+.dropdownContent p {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+  transition: background-color 0.3s ease;
 }
 
-.goodContainer p:hover {
-  background-color: #e9ecef; /* Изменение цвета фона при наведении */
+.dropdownContent p:hover {
+  background-color: #68D391;
 }
