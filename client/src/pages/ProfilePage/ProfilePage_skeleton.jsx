@@ -19,22 +19,12 @@ import {
   AlertIcon,
   AlertTitle,
   AlertDescription,
-  Drawer,
-  DrawerBody,
-  RadioGroup,
-  Stack,
-  Radio,
-  DrawerHeader,
-  DrawerOverlay,
-  DrawerContent,
   Button,
   useDisclosure,
 } from "@chakra-ui/react";
 import axiosInstance from "../../axiosInstance";
-import VantaRingsBackground from "../../components/Vanta/Vanta";
 
 const ProfilePage_skeleton = ({ user, setUser }) => {
-  const { isOpen, onOpen, onClose } = useDisclosure();
   const [isEditing, setIsEditing] = useState(false);
   const [formData, setFormData] = useState({
     username: user?.username,
@@ -43,7 +33,7 @@ const ProfilePage_skeleton = ({ user, setUser }) => {
     profilePhoto: null,
   });
   const [error, setError] = useState(null);
- 
+  
   const handleChange = (e) => {
     if (e.target.name === "profilePhoto") {
       setFormData({ ...formData, profilePhoto: e.target.files[0] });
@@ -108,8 +98,16 @@ const ProfilePage_skeleton = ({ user, setUser }) => {
           <VStack spacing={3} alignItems="flex-start">
             <Text fontSize="lg">💚 Ваше имя: {user.username}</Text>
             <Text fontSize="lg">💚 Ваша электронная почта: {user.email}</Text>
-
-            <Button colorScheme="blue" onClick={() => setIsEditing(true)}>
+            {/* <Text fontSize="lg">💚 Дата регистрации: {user.createdAt}</Text> */}
+            <Button
+              colorScheme="blue"
+              style={{ margin: "5px" }}
+              bg="#2F855A"
+              _hover={{ bg: "teal.700" }}
+              _active={{ bg: "teal.800" }}
+              _focus={{ boxShadow: "none" }}
+              onClick={() => setIsEditing(true)}
+            >
               Редактировать профиль
             </Button>
             <Story user={user} />
@@ -124,7 +122,6 @@ const ProfilePage_skeleton = ({ user, setUser }) => {
           )}
         </HStack>
       </VStack>
-
 
       <Modal isOpen={isEditing} onClose={() => setIsEditing(false)}>
         <ModalOverlay />
@@ -181,8 +178,6 @@ const ProfilePage_skeleton = ({ user, setUser }) => {
           </form>
         </ModalContent>
       </Modal>
-
-     
     </Box>
   );
 };
