@@ -45,7 +45,7 @@ router.put("/users/:id", upload.single("profilePhoto"), async (req, res) => {
     }
 
     if (profilePhoto) {
-      user.profilePhoto = `/uploads/${profilePhoto.filename}`;
+      user.profilePhoto = `/${profilePhoto.filename}`; // ! для загрузки фото тут должен быть полностью прямой путь папка-статичная-> и название фото и все!
       await user.save();
     }
 

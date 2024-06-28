@@ -30,6 +30,12 @@ app.use(express.urlencoded({ extended: true })); // подкл. мидлварк
 app.use(express.json()); // подкл. мидлварку = позволяет нам получать тело запроса в формате JSON
 app.use(cors(corsConfig));
 
+// http://localhost:5173/api/v1/profile   
+// http://localhost:3100/api/v1/profile   
+
+app.use(express.static('uploads')); // ! для загрузки фото и малтера, важно подключать через статичную папку
+
+
 app.use("/api/v1", apiRouter);
 
 app.listen(PORT, () => {

@@ -23,12 +23,29 @@ import Story from "./pages/Story/Story";
 function App() {
   const [user, setUser] = useState();
   const [inputs, setInputs] = useState({ goodWord: "", badWord: "" });
-  
+  const [isLoading, setLoading] = useState(false);
+
   useEffect(() => {
-    axiosInstance(`${import.meta.env.VITE_API}/tokens/refresh`).then((res) => {
-      setUser(res.data.user);
-      setAccessToken(res.data.accessToken);
-    });
+    const initializeUser = async () => {
+      const accessToken = localStorage.getItem("accessToken");
+      if (accessToken) {
+        setAccessToken(accessToken);
+        try {
+          const res = await axiosInstance(
+            `${import.meta.env.VITE_API}/tokens/refresh`
+          );
+          setUser(res.data.user);
+          setAccessToken(res.data.accessToken);
+          localStorage.setItem("accessToken", res.data.accessToken);
+        } catch (error) {
+          console.error("Error refreshing tokens", error);
+        } finally {
+          setLoading(false); // Устанавливаем isLoading в false после завершения загрузки
+        }
+      }
+    };
+
+    initializeUser();
   }, []);
 
   const router = createBrowserRouter([
@@ -38,7 +55,7 @@ function App() {
       children: [
         {
           path: "/",
-          element: <StartPage user={user} />, // у element: <HomePage />,
+          element: <StartPage user={user} />,
         },
         {
           path: "/home",
@@ -59,37 +76,40 @@ function App() {
           path: "/signup",
           element: <SignupPage setUser={setUser} />,
         },
-        {
-          path: "/story",
-          element: <Story user={user} inputs={inputs} setInputs={setInputs} />,
-        },
+        // {
+        //   path: "/story",
+        //   element: <Story user={user} inputs={inputs} setInputs={setInputs} />,
+        // },
         {
           path: "*",
           element: <Page404 />,
         },
+        // {
+        //   path: "/profile",
+        //   element: isLoading ? (
+        //     <ProfilePage_skeleton
+        //       user={user}
+        //       setUser={setUser}
+        //       inputs={inputs}
+        //       setInputs={setInputs}
+        //     />
+        //   ) : (
+        //     <Navigate to="/" />
+        //   ),
+        // },
         {
           path: "/profile",
-          element: user ? (
+          element: isLoading ? (
+            <Navigate to="/" />
+          ) : (
             <ProfilePage_skeleton
               user={user}
               setUser={setUser}
               inputs={inputs}
               setInputs={setInputs}
             />
-          ) : (
-            <Navigate to="/" />
           ),
         },
-
-        // ~-------------ВЫШЕ ЭТО БАЗА----------------------------------------
-        // {
-        //   path: "/channels", // ~ ШАБЛОН: добавь свои ссылки на страницы
-        //   element: <ChanneList user={user} setUser={setUser} />,
-        // },
-        // {
-        //   path: "/channels/:id", // ~ ШАБЛОН: добавь свои ссылки на страницы
-        //   element: <ChannelPage user={user} />,// ~ ШАБЛОН: добавь свои страницы
-        // },
       ],
     },
   ]);
