@@ -76,27 +76,10 @@ function App() {
           path: "/signup",
           element: <SignupPage setUser={setUser} />,
         },
-        // {
-        //   path: "/story",
-        //   element: <Story user={user} inputs={inputs} setInputs={setInputs} />,
-        // },
         {
           path: "*",
           element: <Page404 />,
         },
-        // {
-        //   path: "/profile",
-        //   element: isLoading ? (
-        //     <ProfilePage_skeleton
-        //       user={user}
-        //       setUser={setUser}
-        //       inputs={inputs}
-        //       setInputs={setInputs}
-        //     />
-        //   ) : (
-        //     <Navigate to="/" />
-        //   ),
-        // },
         {
           path: "/profile",
           element: isLoading ? (
