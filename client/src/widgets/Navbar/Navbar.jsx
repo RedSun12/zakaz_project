@@ -47,7 +47,7 @@ export default function Navbar({ user, setUser }) {
             >
               Home
             </Button>
-            <Button
+            {/* <Button
               as={Link}
               to="/story"
               bg="#2F855A"
@@ -67,7 +67,7 @@ export default function Navbar({ user, setUser }) {
               }}
             >
               История
-            </Button>
+            </Button> */}
           </>
         )}
       </ButtonGroup>

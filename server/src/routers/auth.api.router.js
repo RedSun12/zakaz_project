@@ -14,9 +14,13 @@ const upload = multer({ storage });
 // ^ ПЕРВЫЙ РУТ для Регистрации нового пользователя (POST запроса /signup)
 router.post("/signup", upload.single("profilePhoto"), async (req, res) => {
   const { username, email, password } = req.body;
+  console.log("=============/signup req.body",req.body);
+  // console.log("=============username", username);
+  // console.log("=============email", email);
+  // console.log("=============password", email);
   const profilePhoto = req.file; // доступ к загруженному файлу
 
-  console.log('=============', profilePhoto)
+  // console.log('=============', profilePhoto)
 
   if (!(username && email && password)) {
     return res.status(400).json({ message: "All fields are required" });
@@ -25,9 +29,10 @@ router.post("/signup", upload.single("profilePhoto"), async (req, res) => {
     const [user, created] = await User.findOrCreate({
       where: { email },
       defaults: { username, email, password: await bcrypt.hash(password, 10) },
-      profilePhoto: profilePhoto ? profilePhoto.buffer.toString("base64") : null, // преобразование фото в base64
+      profilePhoto: profilePhoto
+        ? profilePhoto.buffer.toString("base64")
+        : null, // преобразование фото в base64
     });
-    console.log('=============')
 
     if (!created) {
       return res.status(403).json({ message: "User already exists" });
@@ -52,6 +57,10 @@ router
   .post("/signin", async (req, res) => {
     try {
       const { email, password } = req.body;
+
+      console.log("=============req.body",req.body);
+      console.log("=============email", email);
+      console.log("=============password", password);
 
       if (!(email && password)) {
         return res.status(400).json({ message: "All fields are required" });
