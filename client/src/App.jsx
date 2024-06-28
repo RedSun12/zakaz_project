@@ -1,4 +1,3 @@
-// & С МОЕГО СОЛО ПРОЕКТА:
 import React from "react";
 import "./App.css";
 import Root from "./Root";
@@ -14,9 +13,6 @@ import { useEffect, useState } from "react";
 import axiosInstance, { setAccessToken } from "./axiosInstance";
 import HomePage from "./pages/HomePage/HomePage";
 import ProfilePage_skeleton from "./pages/ProfilePage/ProfilePage_skeleton";
-// import ChanneList from "./pages/ChanneList"; // ~ ШАБЛОН: добавь свои ссылки на страницы
-// import ChannelPage from "./pages/ChannelPage";// ~ ШАБЛОН: добавь свои ссылки на страницы
-// import Subscriptions from "./pages/Subscriptions";
 import Page404 from "./components/Page404/Page404";
 import Story from "./pages/Story/Story";
 

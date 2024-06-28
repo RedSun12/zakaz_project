@@ -33,7 +33,6 @@ const ProfilePage_skeleton = ({ user, setUser }) => {
     profilePhoto: null,
   });
   const [error, setError] = useState(null);
-  
   const handleChange = (e) => {
     if (e.target.name === "profilePhoto") {
       setFormData({ ...formData, profilePhoto: e.target.files[0] });
@@ -123,6 +122,7 @@ const ProfilePage_skeleton = ({ user, setUser }) => {
         </HStack>
       </VStack>
 
+
       <Modal isOpen={isEditing} onClose={() => setIsEditing(false)}>
         <ModalOverlay />
         <ModalContent>
@@ -178,6 +178,8 @@ const ProfilePage_skeleton = ({ user, setUser }) => {
           </form>
         </ModalContent>
       </Modal>
+
+     
     </Box>
   );
 };
