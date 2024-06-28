@@ -156,13 +156,16 @@ export default function AuthForm({ title, type, setUser }) {
         </Alert>
       )}
       <div className={styles.btns}>
+        <Button style={{marginRight:'10px'}}onClick={() => navigate("/")} colorScheme="green">
+          На главную
+        </Button>
         {type === "signin" && (
-          <Button type="submit" colorScheme="blue">
+          <Button type="submit" colorScheme="green">
             Вход
           </Button>
         )}
         {type === "signup" && (
-          <Button type="submit" colorScheme="blue">
+          <Button type="submit" colorScheme="green">
             Регистрация
           </Button>
         )}

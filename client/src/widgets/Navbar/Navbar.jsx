@@ -45,29 +45,8 @@ export default function Navbar({ user, setUser }) {
                 },
               }}
             >
-              Home
+              Новости
             </Button>
-            {/* <Button
-              as={Link}
-              to="/story"
-              bg="#2F855A"
-              colorScheme="teal"
-              _hover={{ bg: "teal.700" }}
-              _active={{ bg: "teal.800" }}
-              _focus={{ boxShadow: "none" }}
-              sx={{
-                "@media screen and (max-width: 500px)": {
-                  fontSize: "sm",
-                  padding: "8px",
-                },
-                "@media screen and (min-width: 501px)": {
-                  fontSize: "lg",
-                  padding: "16px",
-                },
-              }}
-            >
-              История
-            </Button> */}
           </>
         )}
       </ButtonGroup>
