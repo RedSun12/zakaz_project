@@ -2,7 +2,14 @@ import { useState } from "react";
 import axiosInstance, { setAccessToken } from "../../axiosInstance";
 import { useNavigate } from "react-router-dom";
 import styles from "./AuthForm.module.css";
-import { Button, Input } from "@chakra-ui/react";
+import {
+  Button,
+  Input,
+  Alert,
+  AlertIcon,
+  AlertTitle,
+  AlertDescription,
+} from "@chakra-ui/react";
 
 const { VITE_API } = import.meta.env;
 
@@ -10,18 +17,46 @@ export default function AuthForm({ title, type = "signin", setUser }) {
   const [inputs, setInputs] = useState({});
   const [error, setError] = useState(null);
   const navigate = useNavigate();
+  const [profilePhoto, setProfilePhoto] = useState(null);
 
   const changeHandler = (e) => {
-    setInputs((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+    if (e.target.name === "profilePhoto") {
+      setProfilePhoto(e.target.files[0]);
+    } else {
+      setInputs((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+    }
   };
 
   const submitHandler = async (e) => {
+    // ^ правка 1: требование о пароле более 8 символов
     e.preventDefault();
+
+    if (type === "signup" && inputs.password.length < 3) {
+      setError("Пароль должен быть не менее 3 символов");
+      return;
+    }
+
+    const formData = new FormData();
+    Object.keys(inputs).forEach((key) => {
+      formData.append(key, inputs[key]);
+    });
+    if (profilePhoto) {
+      formData.append("profilePhoto", profilePhoto);
+    }
+
     try {
-      const res = await axiosInstance.post(`${VITE_API}/auth/${type}`, inputs);
+      const res = await axiosInstance.post(
+        `${VITE_API}/auth/${type}`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
       setUser(res.data.user);
       setAccessToken(res.data.accessToken);
-      navigate("/home");// ~ ШАБЛОН: Куда тебе нужно направление?  К примеру, "/profile"
+      navigate("/home"); // ~ ШАБЛОН: Куда тебе нужно направление?  К примеру, "/profile"
     } catch (error) {
       setError(
         "Авторизация не завершена. Пожалуйста, проверьте свои учетные данные"
@@ -31,7 +66,7 @@ export default function AuthForm({ title, type = "signin", setUser }) {
   };
 
   return (
-<form onSubmit={submitHandler} className={styles.wrapper}>
+    <form onSubmit={submitHandler} className={styles.wrapper}>
       <h3 className={styles.head}>{title}</h3>
       <div className={styles.inputs}>
         {type === "signin" && (
@@ -43,6 +78,7 @@ export default function AuthForm({ title, type = "signin", setUser }) {
               name="email"
               value={inputs?.email}
               placeholder="Эл.почта"
+              required
             />
             <Input
               onChange={changeHandler}
@@ -51,6 +87,7 @@ export default function AuthForm({ title, type = "signin", setUser }) {
               name="password"
               value={inputs?.password}
               placeholder="Пароль"
+              required
             />
           </>
         )}
@@ -62,6 +99,7 @@ export default function AuthForm({ title, type = "signin", setUser }) {
               name="username"
               value={inputs?.name}
               placeholder="Имя пользователя"
+              required
             />
             <Input
               onChange={changeHandler}
@@ -70,6 +108,7 @@ export default function AuthForm({ title, type = "signin", setUser }) {
               name="email"
               value={inputs?.description}
               placeholder="Эл.почта"
+              required
             />
             <Input
               onChange={changeHandler}
@@ -78,11 +117,25 @@ export default function AuthForm({ title, type = "signin", setUser }) {
               name="password"
               value={inputs?.password}
               placeholder="Пароль"
+              required
+            />
+              <Input
+              onChange={changeHandler}
+              borderColor="#3f3e3e"
+              type="file"
+              name="profilePhoto"
+              accept="image/*"
             />
           </>
         )}
       </div>
-      {error && <p className={styles.error}>{error}</p>}
+      {error && (
+        <Alert status="error" className={styles.error}>
+          <AlertIcon />
+          <AlertTitle>Ошибка</AlertTitle>
+          <AlertDescription>{error}</AlertDescription>
+        </Alert>
+      )}
       <div className={styles.btns}>
         {type === "signin" && (
           <Button type="submit" colorScheme="blue">

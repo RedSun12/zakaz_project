@@ -2,7 +2,11 @@
 import React from "react";
 import "./App.css";
 import Root from "./Root";
-import { createBrowserRouter, RouterProvider, Navigate } from "react-router-dom";
+import {
+  createBrowserRouter,
+  RouterProvider,
+  Navigate,
+} from "react-router-dom";
 import StartPage from "./pages/StartPage/StartPage";
 import SigninPage from "./pages/SigninPage/SigninPage";
 import SignupPage from "./pages/SignupPage/SignupPage";
@@ -38,7 +42,14 @@ function App() {
         },
         {
           path: "/home",
-          element: <HomePage user={user} setUser={setUser} inputs={inputs} setInputs={setInputs} />,
+          element: (
+            <HomePage
+              user={user}
+              setUser={setUser}
+              inputs={inputs}
+              setInputs={setInputs}
+            />
+          ),
         },
         {
           path: "/signin",
@@ -61,6 +72,7 @@ function App() {
           element: user ? (
             <ProfilePage_skeleton
               user={user}
+              setUser={setUser}
               inputs={inputs}
               setInputs={setInputs}
             />

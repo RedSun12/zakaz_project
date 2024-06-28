@@ -22,6 +22,11 @@ module.exports = {
         allowNull: false,
         type: Sequelize.STRING
       },
+      // новое поле для фото профиля
+      profilePhoto: {
+        type: Sequelize.STRING,
+        allowNull: true,
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE,

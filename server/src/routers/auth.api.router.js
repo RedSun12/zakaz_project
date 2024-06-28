@@ -4,10 +4,19 @@ const { User } = require("../../db/models"); // модель юзера наша
 const generateToken = require("../utils/generateToken");
 const cookiesConfig = require("../configs/cookiesConfig");
 const { where } = require("sequelize");
+const multer = require("multer");
+// const upload = require("../middlewares/uploadPhotos");
+
+// тут нужна настройка multer для загрузки файлов
+const storage = multer.memoryStorage();
+const upload = multer({ storage });
 
 // ^ ПЕРВЫЙ РУТ для Регистрации нового пользователя (POST запроса /signup)
-router.post("/signup", async (req, res) => {
+router.post("/signup", upload.single("profilePhoto"), async (req, res) => {
   const { username, email, password } = req.body;
+  const profilePhoto = req.file; // доступ к загруженному файлу
+
+  console.log('=============', profilePhoto)
 
   if (!(username && email && password)) {
     return res.status(400).json({ message: "All fields are required" });
@@ -16,7 +25,9 @@ router.post("/signup", async (req, res) => {
     const [user, created] = await User.findOrCreate({
       where: { email },
       defaults: { username, email, password: await bcrypt.hash(password, 10) },
+      profilePhoto: profilePhoto ? profilePhoto.buffer.toString("base64") : null, // преобразование фото в base64
     });
+    console.log('=============')
 
     if (!created) {
       return res.status(403).json({ message: "User already exists" });

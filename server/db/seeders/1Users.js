@@ -10,13 +10,14 @@ module.exports = {
         {
           username: "admin",
           email: "admin@admin",
-          password: await bcrypt.hash('123123', 10),
+          password: await bcrypt.hash("123123", 10),
+          profilePhoto:
+            "https://klike.net/uploads/posts/2019-11/1573725793_9.jpg",
         },
       ],
       {}
     );
   },
 
-  async down(queryInterface, Sequelize) {
-  },
+  async down(queryInterface, Sequelize) {},
 };
