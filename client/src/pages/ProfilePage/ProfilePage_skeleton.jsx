@@ -20,6 +20,7 @@ import {
   AlertDescription,
 } from "@chakra-ui/react";
 import axiosInstance from "../../axiosInstance";
+import VantaRingsBackground from "../../components/Vanta/Vanta";
 
 const ProfilePage_skeleton = ({ user, setUser }) => {
   // console.log("user from ProfilePage_skeleton", user);
