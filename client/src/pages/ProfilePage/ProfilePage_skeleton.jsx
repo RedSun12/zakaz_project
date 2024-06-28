@@ -1,6 +1,4 @@
-// ! ПЯТЫЙ  ВАРИАНТ:
-
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Story from "../Story/Story";
 import {
   Box,
@@ -35,6 +33,7 @@ const ProfilePage_skeleton = ({ user, setUser }) => {
     profilePhoto: null,
   });
   const [error, setError] = useState(null);
+  
   const handleChange = (e) => {
     if (e.target.name === "profilePhoto") {
       setFormData({ ...formData, profilePhoto: e.target.files[0] });
