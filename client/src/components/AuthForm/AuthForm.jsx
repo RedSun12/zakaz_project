@@ -13,7 +13,7 @@ import {
 
 const { VITE_API } = import.meta.env;
 
-export default function AuthForm({ title, type = "signin", setUser }) {
+export default function AuthForm({ title, type, setUser }) {
   const [inputs, setInputs] = useState({});
   const [error, setError] = useState(null);
   const navigate = useNavigate();
@@ -30,7 +30,7 @@ export default function AuthForm({ title, type = "signin", setUser }) {
   const submitHandler = async (e) => {
     // ^ правка 1: требование о пароле более 8 символов
     e.preventDefault();
-
+    console.log("inputs", inputs);
     if (type === "signup" && inputs.password.length < 3) {
       setError("Пароль должен быть не менее 3 символов");
       return;
@@ -40,23 +40,42 @@ export default function AuthForm({ title, type = "signin", setUser }) {
     Object.keys(inputs).forEach((key) => {
       formData.append(key, inputs[key]);
     });
+    console.log("formData", formData);
     if (profilePhoto) {
       formData.append("profilePhoto", profilePhoto);
     }
 
     try {
-      const res = await axiosInstance.post(
-        `${VITE_API}/auth/${type}`,
-        formData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        }
-      );
-      setUser(res.data.user);
-      setAccessToken(res.data.accessToken);
-      navigate("/home"); // ~ ШАБЛОН: Куда тебе нужно направление?  К примеру, "/profile"
+      if (type === "signin") {
+        const res = await axiosInstance.post(
+          `${VITE_API}/auth/${type}`,
+          formData,
+          {
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
+        setUser(res.data.user);
+        setAccessToken(res.data.accessToken);
+        navigate("/home"); // ~ ШАБЛОН: Куда тебе нужно направление?  К примеру, "/profile"}
+      }
+
+      if (type === "signup") {
+        const res = await axiosInstance.post(
+          `${VITE_API}/auth/${type}`,
+          formData,
+          {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+          }
+        );
+
+        setUser(res.data.user);
+        setAccessToken(res.data.accessToken);
+        navigate("/home"); // ~ ШАБЛОН: Куда тебе нужно направление?  К примеру, "/profile"}
+      }
     } catch (error) {
       setError(
         "Авторизация не завершена. Пожалуйста, проверьте свои учетные данные"
@@ -119,7 +138,7 @@ export default function AuthForm({ title, type = "signin", setUser }) {
               placeholder="Пароль"
               required
             />
-              <Input
+            <Input
               onChange={changeHandler}
               borderColor="#3f3e3e"
               type="file"
