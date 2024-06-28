@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import Story from "../Story/Story";
 import {
   Box,
   Text,
@@ -23,6 +24,7 @@ import axiosInstance from "../../axiosInstance";
 const ProfilePage_skeleton = ({ user, setUser }) => {
   // console.log("user from ProfilePage_skeleton", user);
 
+
   const [isEditing, setIsEditing] = useState(false);
   const [formData, setFormData] = useState({
     username: user.username,
@@ -31,9 +33,6 @@ const ProfilePage_skeleton = ({ user, setUser }) => {
     profilePhoto: null,
   });
   const [error, setError] = useState(null);
-
-  // const URL = import.meta.env.VITE_API
-  // console.log('=================URL', URL)
 
   const handleChange = (e) => {
     if (e.target.name === "profilePhoto") {
@@ -108,6 +107,7 @@ const ProfilePage_skeleton = ({ user, setUser }) => {
       justifyContent="center"
       alignItems="center"
     >
+      <Story user={user} />
       <VStack spacing={6} color="white">
         <Heading as="h1" size="xl">
           Приветствуем Вас, {user.username}!

@@ -1,9 +1,57 @@
 .wrapper {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-  
-    padding: 20px;
-  }
-  
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+
+.goodWord:valid {
+  border: 2px solid #38a169;
+}
+
+.badWord:valid {
+  border: 2px solid #aa3131;
+}
+
+.goodWord,
+.badWord {
+  margin: 5px;
+}
+
+.card {
+  margin: 20px;
+  width: 450px;
+}
+
+.cardbody {
+  color: black;
+  background-color: #cbd5e0;
+}
+
+.cards {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.words {
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.goodContainer {
+  border: 3px solid #38a169;
+}
+
+.badContainer {
+  border: 3px solid #aa3131;
+}
+
+.badContainer,
+.goodContainer {
+  text-align: center;
+  padding: 10px;
+  border-radius: 15px;
+}

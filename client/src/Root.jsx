@@ -13,7 +13,6 @@ export default function Root({ user, setUser }) {
   return (
     <>
       {!excludeNavBar && <Navbar user={user} setUser={setUser} />}
-      {/* <Navbar user={user} setUser={setUser} /> */}
       <div style={{ marginTop:  "100px", padding: "0 20px"  }}>
         <Outlet />
       </div>

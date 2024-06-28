@@ -18,13 +18,12 @@ import ProfilePage_skeleton from "./pages/ProfilePage/ProfilePage_skeleton";
 // import ChannelPage from "./pages/ChannelPage";// ~ ШАБЛОН: добавь свои ссылки на страницы
 // import Subscriptions from "./pages/Subscriptions";
 import Page404 from "./components/Page404/Page404";
+import Story from "./pages/Story/Story";
 
 function App() {
   const [user, setUser] = useState();
   const [inputs, setInputs] = useState({ goodWord: "", badWord: "" });
-  // console.log("🟩ЮЗЕР FROM APP.JSX user", user);
-  const [subscribes, setSubscribes] = useState([]); // ^ СОСТОЯНИЕ ПОДПИСОК
-
+  
   useEffect(() => {
     axiosInstance(`${import.meta.env.VITE_API}/tokens/refresh`).then((res) => {
       setUser(res.data.user);
@@ -59,6 +58,10 @@ function App() {
         {
           path: "/signup",
           element: <SignupPage setUser={setUser} />,
+        },
+        {
+          path: "/story",
+          element: <Story user={user} inputs={inputs} setInputs={setInputs} />,
         },
         {
           path: "*",
