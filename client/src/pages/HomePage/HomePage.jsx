@@ -136,7 +136,7 @@ const HomePage = ({ inputs, setInputs, user }) => {
           alignItems: "center",
           margin: "5px",
         }}
-      >
+      >   
         <Input
           placeholder="Хочу видеть..."
           value={inputs.goodWord}
@@ -172,7 +172,8 @@ const HomePage = ({ inputs, setInputs, user }) => {
           Искать
         </Button>
       </form>
-      <div className={styles.words}>
+      {/* <div className={styles.words}> */}
+      <div className={styles.goodContainer}>
         <div className={styles.goodContainer}>
          Топ-5 "хочу видеть"
           {entries[0]?.length
