@@ -67,7 +67,7 @@ const HomePage = ({ inputs, setInputs, user }) => {
             : ""
         }`,
         domains: "ria.ru,lenta.ru,yandex.ru,rbc.ru",
-        apiKey: "e70344a657e448dda752d8e0b26cde17",
+        apiKey: "13c73316936a42a5951587a58656f732",
       });
       const response = await fetch(
         `https://newsapi.org/v2/everything?${searchParams}`

@@ -11,26 +11,7 @@ const { VITE_BASE_URL } = import.meta.env;
 
 
 export default function StartPage({ user }) {
-  // const [showForm, setShowForm] = useState(null); // 'signin' или 'signup'
   const navigate = useNavigate();
-  // const [tasks, setTasks] = useState([]);
- 
-
-  // useEffect(() => {
-  //   axiosInstance
-  //     .get(`${import.meta.env.VITE_API}/channels`)
-  //     .then((res) => {
-  //       setTasks(res.data);
-  //     })
-  //     .catch((err) => {
-  //       console.error("Ошибка при загрузке данных:", err);
-  //     });
-  // }, []);
-
-
-
-  // news.articles - массив с новостями;
-
   const handleSigninClick = () => {
     navigate("/signin");
   };
@@ -38,18 +19,7 @@ export default function StartPage({ user }) {
   const handleSignupClick = () => {
     navigate("/signup");
   };
-
-  // console.log('я тут', news)
-
-  // let allResumes = await Resume.findAll();
-  // allResumes = allResumes.map((el) => el.get({ plain: true }));
-  // const result = allResumes.filter(
-  //   (resume) =>
-  //     resume.education.toLowerCase().includes(search.toLowerCase()) ||
-  //     resume.experience.toString().includes(search) ||
-  //     resume.skills
-  //       .split(" ")
-  //       .some((skill) => skill.toLowerCase().includes(search.toLowerCase()))
+  
 
   return (
     <>
@@ -58,8 +28,8 @@ export default function StartPage({ user }) {
       </Box>
       <div className={styles.wrapper}>
         <Box textAlign="center" mt="20px">
-          <Heading as="h2" size="xl" mb="4" >
-            ELBRUS NEWS!
+          <Heading as="h2" size="xl" mb="4" style={{fontSize:'80px'}} >
+            ELBRUS NEWS
           </Heading>
           <Heading fontSize="lg">
             Пожалуйста, войдите или зарегистрируйтесь{" "}
